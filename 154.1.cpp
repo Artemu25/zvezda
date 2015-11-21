@@ -6,14 +6,15 @@
 #include <string.h>
 #include <fstream>
 using namespace std;
- 
-int main(int argc, char * argv[]) {
-	fstream s("script.py", ios::out);
-	s << " #! /usr/bin/python3" << endl;
-	s << "print 1";
-	for (int i=1; i<argc; i++) {
-		s << "*" << argv[i];
-	}
-	s << "" << endl;
-	execlp("./script.py", "./script.py", NULL);
+
+int main(int argc, char* argv[]) {
+    int file = open("script.py",  O_TRUNC|O_CREAT|O_WRONLY, 0755);
+    write(file, "#!/usr/bin/python\nprint ", 24);
+    write(file, argv[1], strlen(argv[1]));
+    for (int i = 2; i < argc; i++) {
+        write(file, "*", 1);
+        write(file, argv[i], strlen(argv[i]));
+    }
+    execlp("./script.py", "./script.py", NULL);
+    close(file);
 }
