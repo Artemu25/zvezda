@@ -128,8 +128,7 @@ int main() {
                     if (opendir(path1) != NULL) {
                         new_choice(&choices1, path1, &n_choices1);
                         my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
-                        for(i = 0; i < n_choices1; ++i)
-                            my_items1[i] = new_item(choices1[i], "");
+                        for(i = 0; i < n_choices1; ++i) my_items1[i] = new_item(choices1[i], "");
                         my_menu1 = new_menu((ITEM **)my_items1);
                         set_menu_win(my_menu1, my_menu_win1);
                         set_menu_sub(my_menu1, derwin(my_menu_win1, 17, 38, 3, 1));
