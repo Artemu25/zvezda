@@ -141,7 +141,7 @@ int main() {
                         wrefresh(my_menu_win1);
                     }
                     else {
-                        strcat(path1, "/../");
+                        strcat(path1, "/..");
                     }
                 } else {
                     dir = opendir(path2);
