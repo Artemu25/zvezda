@@ -121,7 +121,6 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
-                    if (entry->d_type != isFile) {
                     free_menu(my_menu1); 
                     unpost_menu(my_menu1);
                     strcat(path1, "/");
@@ -139,7 +138,8 @@ int main() {
                         mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
                         refresh();
                         post_menu(my_menu1);
-                        wrefresh(my_menu_win1);}
+                        wrefresh(my_menu_win1);
+                    }
                     else {
                         strcat(path1, "/../");
                     }
