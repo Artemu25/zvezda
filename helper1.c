@@ -45,7 +45,7 @@ int main() {
     int n_choices1, n_choices2, i, j, currwin = 0;
     char path1[2048] = "/";
     char path2[2048] = "/";
-
+    char hekper[2048] = "/";
     char **choices1;
     char **choices2;
 	
@@ -121,13 +121,13 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
-                    dir = opendir(path1);
-                    entry = readdir(dir);
+                    helper = path1;
                     if (entry->d_type != isFile) {
                     free_menu(my_menu1); 
                     unpost_menu(my_menu1);
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
+                    if (opendir(path1) != NULL) {
                     new_choice(&choices1, path1, &n_choices1);
                     my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
                     for(i = 0; i < n_choices1; ++i)
@@ -141,6 +141,9 @@ int main() {
                     refresh();
                     post_menu(my_menu1);
                     wrefresh(my_menu_win1);}
+                    else {
+                        path1 = helper;
+                    }
                 } else {
                     dir = opendir(path2);
                     entry = readdir(dir);
