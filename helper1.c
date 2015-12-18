@@ -123,6 +123,7 @@ int main() {
                 if (currwin == 0) {
                     free_menu(my_menu1); 
                     unpost_menu(my_menu1);
+                    helper = new path1;
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
                     if (opendir(path1) != NULL) {
@@ -140,7 +141,7 @@ int main() {
                         wrefresh(my_menu_win1);
                     }
                     else {
-                        strcat(path1, "/..");
+                        path1 = new helper;
                     }
                 } else {
                     dir = opendir(path2);
