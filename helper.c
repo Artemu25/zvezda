@@ -119,6 +119,10 @@ int main() {
 			    currwin = (currwin + 1) % 2;
 			    break;
             case ENTER:
+                DIR *dir;
+                struct dirent *entry;
+                dir = opendir(path);
+                entry = readdir(dir);
                 if (entry->d_type == isFolder) {
                 if (currwin == 0) {
                     free_menu(my_menu1); 
