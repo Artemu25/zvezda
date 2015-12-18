@@ -119,7 +119,7 @@ int main() {
 			    currwin = (currwin + 1) % 2;
 			    break;
             case ENTER:
-                if entry->d_type == isFolder {
+                if (entry->d_type == isFolder) {
                 if (currwin == 0) {
                     free_menu(my_menu1); 
                     unpost_menu(my_menu1);
