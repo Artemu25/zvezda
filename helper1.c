@@ -144,7 +144,7 @@ int main() {
                 } else {
                     dir = opendir(path2);
                     entry = readdir(dir);
-                    if (entry->d_type == 0x4) {
+                    if (entry->d_type == DT_DIR) {
                     free_menu(my_menu2);  
                     unpost_menu(my_menu2);
                     strcat(path2, "/");
