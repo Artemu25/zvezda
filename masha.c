@@ -9,8 +9,6 @@
 #define CTRLD 	4
 #define ENTER 10
 
-unsigned char isFile = 0x8;
-
 void new_choice(char ***choices, char path[], int *n_choices) {
     DIR *dir;
     struct dirent *entry;
@@ -36,8 +34,7 @@ void new_choice(char ***choices, char path[], int *n_choices) {
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
 
 int main() {
-    DIR *dir;
-    struct dirent *entry;
+
 	ITEM **my_items1, **my_items2;
 	int c;				
 	MENU *my_menu1, *my_menu2;
@@ -45,7 +42,7 @@ int main() {
     int n_choices1, n_choices2, i, j, currwin = 0;
     char path1[2048] = "/";
     char path2[2048] = "/";
-    char helper[2048] = "/";
+
     char **choices1;
     char **choices2;
 	
@@ -121,31 +118,24 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
+                    free_menu(my_menu1); 
+                    unpost_menu(my_menu1);
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    if (opendir(path1) != NULL) {
-                        free_menu(my_menu1); 
-                        unpost_menu(my_menu1);
-                        new_choice(&choices1, path1, &n_choices1);
-                        my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
-                        for(i = 0; i < n_choices1; ++i) my_items1[i] = new_item(choices1[i], "");
-                        my_menu1 = new_menu((ITEM **)my_items1);
-                        set_menu_win(my_menu1, my_menu_win1);
-                        set_menu_sub(my_menu1, derwin(my_menu_win1, 17, 38, 3, 1));
-                        set_menu_format(my_menu1, 17, 1);
-                        box(my_menu_win1, 0, 0);
-                        mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
-                        refresh();
-                        post_menu(my_menu1);
-                        wrefresh(my_menu_win1);
-                    }
-                    else {
-                        strcat(path1, "/..");
-                    }
+                    new_choice(&choices1, path1, &n_choices1);
+                    my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
+                    for(i = 0; i < n_choices1; ++i)
+                        my_items1[i] = new_item(choices1[i], "");
+                    my_menu1 = new_menu((ITEM **)my_items1);
+                    set_menu_win(my_menu1, my_menu_win1);
+                    set_menu_sub(my_menu1, derwin(my_menu_win1, 17, 38, 3, 1));
+                    set_menu_format(my_menu1, 17, 1);
+                    box(my_menu_win1, 0, 0);
+                    mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
+                    refresh();
+                    post_menu(my_menu1);
+                    wrefresh(my_menu_win1);
                 } else {
-                    dir = opendir(path2);
-                    entry = readdir(dir);
-                    if (entry->d_type == DT_DIR) {
                     free_menu(my_menu2);  
                     unpost_menu(my_menu2);
                     strcat(path2, "/");
@@ -163,7 +153,6 @@ int main() {
                     refresh();
                     post_menu(my_menu2);
                     wrefresh(my_menu_win2); 
-                    }
                 } 
                 break;
 		}
