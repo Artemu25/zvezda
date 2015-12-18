@@ -36,7 +36,8 @@ void new_choice(char ***choices, char path[], int *n_choices) {
 void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
 
 int main() {
-
+    DIR *dir;
+    struct dirent *entry;
 	ITEM **my_items1, **my_items2;
 	int c;				
 	MENU *my_menu1, *my_menu2;
@@ -119,12 +120,10 @@ int main() {
 			    currwin = (currwin + 1) % 2;
 			    break;
             case ENTER:
-                DIR *dir;
-                struct dirent *entry;
-                dir = opendir(path);
-                entry = readdir(dir);
-                if (entry->d_type == isFolder) {
                 if (currwin == 0) {
+                    dir = opendir(path1);
+                    entry = readdir(dir);
+                    if (entry->d_type == isFolder) {
                     free_menu(my_menu1); 
                     unpost_menu(my_menu1);
                     strcat(path1, "/");
@@ -141,8 +140,11 @@ int main() {
                     mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
                     refresh();
                     post_menu(my_menu1);
-                    wrefresh(my_menu_win1);
+                    wrefresh(my_menu_win1);}
                 } else {
+                    dir = opendir(path2);
+                    entry = readdir(dir);
+                    if (entry->d_type == isFolder) {
                     free_menu(my_menu2);  
                     unpost_menu(my_menu2);
                     strcat(path2, "/");
@@ -160,11 +162,9 @@ int main() {
                     refresh();
                     post_menu(my_menu2);
                     wrefresh(my_menu_win2); 
+                    }
                 } 
-                break;}
-                else {
-                    break;
-                }
+                break;
 		}
         wrefresh(my_menu_win1);
         wrefresh(my_menu_win2); 
