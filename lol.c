@@ -127,7 +127,6 @@ int main() {
                     strcpy(helper, path1);
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    free_menu(my_menu1); 
                     if (stat(path1, &lala) >= 0) {
                     if (S_ISDIR(lala.st_mode)) {
                         unpost_menu(my_menu1);
