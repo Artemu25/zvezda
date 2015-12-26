@@ -14,6 +14,7 @@ unsigned char isFile = 0x8;
 void new_choice(char ***choices, char path[], int *n_choices) {
     DIR *dir;
     struct dirent *entry;
+    struct direct file;
     dir = opendir(path);
     int j, i = 0;
     while((entry = readdir(dir)) != NULL) i++;
@@ -39,7 +40,7 @@ int main() {
 	MENU *my_menu1, *my_menu2;
     WINDOW *my_menu_win1, *my_menu_win2;
     int n_choices1, n_choices2, i, j, currwin = 0;
-    char path1[2048] = "/";
+    string path1 = "/";
     char path2[2048] = "/";
     char helper[2048] = "/";
     char **choices1;
@@ -118,8 +119,8 @@ int main() {
                 if (currwin == 0) {
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    if (stat(path1, &entry) >= 0) {
-                    if (S_ISDIR(entry.st_mode)) {
+                    if (stat(path1, &file) >= 0) {
+                    if (S_ISDIR(file.st_mode)) {
                         free_menu(my_menu1); 
                         unpost_menu(my_menu1);
                         new_choice(&choices1, path1, &n_choices1);
