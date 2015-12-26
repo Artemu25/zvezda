@@ -128,7 +128,9 @@ int main() {
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
                     if (stat(path1, &lala) >= 0) {
-                    if (S_ISDIR(lala.st_mode)) {
+                        if (S_ISDIR(lala.st_mode)) {
+                        DIR *d = opendir(path1);
+                            if (d != NULL) {
                         unpost_menu(my_menu1);
                         new_choice(&choices1, path1, &n_choices1);
                         my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
@@ -142,7 +144,12 @@ int main() {
                         refresh();
                         post_menu(my_menu1);
                         wrefresh(my_menu_win1);
-                    }
+                            } else {
+                            strcpy(path1, helper);
+                            }
+                        } else {
+                            strcpy(path1, helper);
+                        }
                     }
                     else {
                         strcpy(path1, helper);
