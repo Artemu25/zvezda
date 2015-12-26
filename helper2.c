@@ -121,11 +121,11 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
-                    free_menu(my_menu1); 
-                    unpost_menu(my_menu1);
                     strcpy(helper, path1);
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
+                    free_menu(my_menu1); 
+                    unpost_menu(my_menu1);
                     if (opendir(path1) != NULL) {
                         new_choice(&choices1, path1, &n_choices1);
                         my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
