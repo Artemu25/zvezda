@@ -1,6 +1,7 @@
 #include <menu.h>
 #include <stdlib.h> 
 #include <string.h> 
+#include <string>
 #include <dirent.h>
 #include <curses.h>
 #include <sys/types.h>
