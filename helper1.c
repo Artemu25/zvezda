@@ -1,7 +1,6 @@
 #include <menu.h>
 #include <stdlib.h> 
 #include <string.h> 
-#include <string>
 #include <dirent.h>
 #include <curses.h>
 #include <sys/types.h>
@@ -41,7 +40,7 @@ int main() {
 	MENU *my_menu1, *my_menu2;
     WINDOW *my_menu_win1, *my_menu_win2;
     int n_choices1, n_choices2, i, j, currwin = 0;
-    char path1[2048] = "/";
+    string path1 = "/";
     char path2[2048] = "/";
     char helper[2048] = "/";
     char **choices1;
