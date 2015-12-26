@@ -145,7 +145,7 @@ int main() {
                         post_menu(my_menu1);
                         wrefresh(my_menu_win1);
                             } else {
-                            strcpy(path1, helper);
+                                strcpy(path1, helper);
                             }
                         } else {
                             strcpy(path1, helper);
