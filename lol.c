@@ -147,19 +147,6 @@ int main() {
                     }
                     else {
                         strcpy(path1, helper);
-                        unpost_menu(my_menu1);
-                        new_choice(&choices1, path1, &n_choices1);
-                        my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
-                        for(i = 0; i < n_choices1; ++i) my_items1[i] = new_item(choices1[i], "");
-                        my_menu1 = new_menu((ITEM **)my_items1);
-                        set_menu_win(my_menu1, my_menu_win1);
-                        set_menu_sub(my_menu1, derwin(my_menu_win1, 17, 38, 3, 1));
-                        set_menu_format(my_menu1, 17, 1);
-                        box(my_menu_win1, 0, 0);
-                        mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
-                        refresh();
-                        post_menu(my_menu1);
-                        wrefresh(my_menu_win1);
                     }
                 } else {
                     char helper[2048];
