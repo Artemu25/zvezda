@@ -11,8 +11,6 @@
 #define CTRLD   4
 #define ENTER 10
 
-unsigned char isFile = 0x8;
-
 void new_choice(char ***choices, char path[], int *n_choices) {
     DIR *dir;
     struct dirent *entry;
@@ -51,7 +49,6 @@ int main() {
     char **choices1;
     char **choices2;
     
-    /* Initialize curses */
     initscr();
     start_color();
     cbreak();
@@ -62,27 +59,21 @@ int main() {
     new_choice(&choices1, path1, &n_choices1);
     new_choice(&choices2, path2, &n_choices2);
 
-    /* Create items */
-    /*n_choices1 = ARRAY_SIZE(choices1);*/
     my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
     for(i = 0; i < n_choices1; ++i)
         my_items1[i] = new_item(choices1[i], "");
-    /*n_choices2 = ARRAY_SIZE(choices2);*/
     my_items2 = (ITEM **)calloc(n_choices2, sizeof(ITEM *));
     for(i = 0; i < n_choices2; ++i)
         my_items2[i] = new_item(choices2[i], "");
 
-    /* Crate menu */
     my_menu1 = new_menu((ITEM **)my_items1);
     my_menu2 = new_menu((ITEM **)my_items2);
 
-    /* Create the window to be associated with the menu */
     my_menu_win1 = newwin(22, 39, 1, 1);
     keypad(my_menu_win1, TRUE);
     my_menu_win2 = newwin(22, 39, 1, COLS/2 + 1);
     keypad(my_menu_win2, TRUE);
      
-    /* Set main window and sub window */
     set_menu_win(my_menu1, my_menu_win1);
     set_menu_sub(my_menu1, derwin(my_menu_win1, 17, 38, 3, 1));
     set_menu_format(my_menu1, 17, 1);
@@ -90,7 +81,6 @@ int main() {
     set_menu_sub(my_menu2, derwin(my_menu_win2, 17, 38, 3, 1));
     set_menu_format(my_menu2, 17, 1);
     
-    /* Print a border around the main window and print a title */
     box(my_menu_win1, 0, 0);
     mvwaddch(my_menu_win1, 2, 39, ACS_RTEE);
     box(my_menu_win2, 0, 0);
@@ -98,7 +88,6 @@ int main() {
     mvprintw(LINES - 1, 0, "F10 to exit");
     refresh();
 
-    /* Post the menu */
     post_menu(my_menu1);
     wrefresh(my_menu_win1);
     post_menu(my_menu2);
@@ -191,7 +180,6 @@ int main() {
         wrefresh(my_menu_win2); 
     }   
 
-    /* Unpost and free all the memory taken up */
     unpost_menu(my_menu1);
     free_menu(my_menu1);
     for(i = 0; i < n_choices1; ++i)
