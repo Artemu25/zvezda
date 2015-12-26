@@ -34,7 +34,6 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
 int main() {
     DIR *dir;
     struct dirent *entry;
-    struct stat file[2048];
 	ITEM **my_items1, **my_items2;
 	int c;				
 	MENU *my_menu1, *my_menu2;
@@ -119,8 +118,8 @@ int main() {
                 if (currwin == 0) {
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    if (stat(path1, &file) >= 0) {
-                    if (S_ISDIR(file.st_mode)) {
+                    if (stat(path1, &entry) >= 0) {
+                    if (S_ISDIR(entry.st_mode)) {
                         free_menu(my_menu1); 
                         unpost_menu(my_menu1);
                         new_choice(&choices1, path1, &n_choices1);
