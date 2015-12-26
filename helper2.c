@@ -4,6 +4,8 @@
 #include <dirent.h>
 #include <curses.h>
 #include <sys/types.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 #define CTRLD 	4
@@ -38,6 +40,7 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
 int main() {
     DIR *dir;
     struct dirent *entry;
+    struct stat lala;
 	ITEM **my_items1, **my_items2;
 	int c;				
 	MENU *my_menu1, *my_menu2;
@@ -45,7 +48,6 @@ int main() {
     int n_choices1, n_choices2, i, j, currwin = 0;
     char path1[2048] = "/";
     char path2[2048] = "/";
-    char helper[2048] = "/";
     char **choices1;
     char **choices2;
 	
@@ -121,12 +123,13 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
-                    strcpy(helper, path1);
-                    strcat(path1, "/");
-                    strcat(path1, item_name(current_item(my_menu1)));
-                    free_menu(my_menu1); 
-                    unpost_menu(my_menu1);
-                    if (opendir(path1) != NULL) {
+                    strcat(newpath1, item_name(current_item(my_menu1)));
+                    strcat(newpath1, "/");
+                    
+                    if (stat(path1, &lala) >= 0) {
+                    if (S_ISDIR(lala.st_mode)) {
+                        DIR *d = opendir(path1);
+                        if (d != NULL) {
                         new_choice(&choices1, path1, &n_choices1);
                         my_items1 = (ITEM **)calloc(n_choices1, sizeof(ITEM *));
                         for(i = 0; i < n_choices1; ++i) my_items1[i] = new_item(choices1[i], "");
@@ -140,17 +143,22 @@ int main() {
                         post_menu(my_menu1);
                         wrefresh(my_menu_win1);
                     }
+                    }
+                    }
                     else {
                         strcpy(path1, helper);
                     }
                 } else {
-                    dir = opendir(path2);
-                    entry = readdir(dir);
-                    if (entry->d_type == DT_DIR) {
-                    free_menu(my_menu2);  
-                    unpost_menu(my_menu2);
+                    сhar helper[2048];
+                    strcpy(helper, path2);
                     strcat(path2, "/");
                     strcat(path2, item_name(current_item(my_menu2)));
+                    free_menu(my_menu2); 
+                    unpost_menu(my_menu2);
+                    if (stat(path2, &lala) >= 0) {
+                    if (S_ISDIR(lala.st_mode)) {
+                        DIR *d = opendir(path2);
+                        if (d != NULL) {
                     new_choice(&choices2, path2, &n_choices2);
                     my_items2 = (ITEM **)calloc(n_choices2, sizeof(ITEM *));
                     for(i = 0; i < n_choices2; ++i)
@@ -164,6 +172,11 @@ int main() {
                     refresh();
                     post_menu(my_menu2);
                     wrefresh(my_menu_win2); 
+                    }
+                    }
+                    }
+                    else {
+                        strcpy(path2, helper);
                     }
                 } 
                 break;
