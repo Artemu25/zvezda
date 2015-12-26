@@ -34,7 +34,7 @@ void print_in_middle(WINDOW *win, int starty, int startx, int width, char *strin
 int main() {
     DIR *dir;
     struct dirent *entry;
-    struct stat file;
+    struct stat *file;
 	ITEM **my_items1, **my_items2;
 	int c;				
 	MENU *my_menu1, *my_menu2;
