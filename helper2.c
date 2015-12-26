@@ -123,9 +123,12 @@ int main() {
 			    break;
             case ENTER:
                 if (currwin == 0) {
-                    strcat(newpath1, item_name(current_item(my_menu1)));
-                    strcat(newpath1, "/");
-                    
+                    char helper[2048];
+                    strcpy(helper, path1);
+                    strcat(path1, "/");
+                    strcat(path1, item_name(current_item(my_menu1)));
+                    free_menu(my_menu1); 
+                    unpost_menu(my_menu1);
                     if (stat(path1, &lala) >= 0) {
                     if (S_ISDIR(lala.st_mode)) {
                         DIR *d = opendir(path1);
