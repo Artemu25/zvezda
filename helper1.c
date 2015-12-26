@@ -119,7 +119,7 @@ int main() {
                 if (currwin == 0) {
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    if (stat(path1, &file) >= 0) {
+                    if (stat(path1.c_str(), &file) >= 0) {
                     if (S_ISDIR(file.st_mode)) {
                         free_menu(my_menu1); 
                         unpost_menu(my_menu1);
