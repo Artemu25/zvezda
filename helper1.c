@@ -16,13 +16,9 @@ void new_choice(char ***choices, char path[], int *n_choices) {
     struct dirent *entry;
     dir = opendir(path);
     int j, i = 0;
-    while((entry = readdir(dir)) != NULL) {
-        i++;
-    };
+    while((entry = readdir(dir)) != NULL) i++;
     *choices = (char **)malloc((i + 1)*sizeof(char *));
-    for(j = 0; j < i; j++) {
-        *(*choices + j) = (char *)malloc(256*sizeof(char));
-    }
+    for(j = 0; j < i; j++) *(*choices + j) = (char *)malloc(256*sizeof(char));
     dir = opendir(path);
     int f = 0;
     while ((entry = readdir(dir)) != NULL) {
@@ -56,7 +52,6 @@ int main() {
     noecho();
 	keypad(stdscr, TRUE);
 	init_pair(1, COLOR_RED, COLOR_BLACK);
-
     new_choice(&choices1, path1, &n_choices1);
     new_choice(&choices2, path2, &n_choices2);
 
@@ -123,7 +118,7 @@ int main() {
                 if (currwin == 0) {
                     strcat(path1, "/");
                     strcat(path1, item_name(current_item(my_menu1)));
-                    if (opendir(path1) != NULL) {
+                    if (S_ISDIR(file.st_mode)) {
                         free_menu(my_menu1); 
                         unpost_menu(my_menu1);
                         new_choice(&choices1, path1, &n_choices1);
